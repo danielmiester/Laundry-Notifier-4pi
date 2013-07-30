@@ -44,7 +44,7 @@ class MyContactManager(ContactEditor):
         pattern = "{} <{}>"
         selection = self.contactList.GetChecked()
         if len(selection) == 0:
-            self.contactList.Insert([pattern.format(self.contactName.GetValue(),self.contactEmail.GetValue())])
+            self.contactList.Append(pattern.format(self.contactName.GetValue(),self.contactEmail.GetValue()))
         else:
             self.contactList.Delete(selection[0])
             self.contactList.Append(pattern.format(self.contactName.GetValue(), self.contactEmail.GetValue()))
@@ -114,7 +114,7 @@ class MyFrame(MainFrame):
 
     def invokeContactManager(self, event):
         dia = MyContactManager(self.parent)
-        dia.setItems(["me <me@you.com>","you <you@me.com>"])
+        dia.setItems(self.dryerBuzzChecks.GetItems())
         if dia.ShowModal() == 0:
             items =  dia.contactList.GetItems()
             self.updateLists(items)
@@ -132,10 +132,13 @@ class MyFrame(MainFrame):
     def sendNotification(self, message):
         if message == "Dryer Buzz":
             emails = self.dryerBuzzChecks.GetCheckedStrings()
+            [self.dryerBuzzChecks.Check(x,False) for x in self.dryerBuzzChecks.GetChecked()]
         elif message == "Dryer Done":
             emails = self.dryerDoneChecks.GetCheckedStrings()
+            [self.dryerDoneChecks.Check(x, False) for x in self.dryerDoneChecks.GetChecked()]
         elif message == "Washer Done":
             emails = self.washerDoneChecks.GetCheckedStrings()
+            [self.washerDoneChecks.Check(x, False) for x in self.washerDoneChecks.GetChecked()]
         if emails is not None:
             msg = "{},{}".format(message, ",".join(emails))
             print "Sending Message:",msg
