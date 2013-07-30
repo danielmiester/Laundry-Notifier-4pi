@@ -173,7 +173,6 @@ class LaundryNotifier(wx.App):
 
         self.SetTopWindow(self.f)
         self.f.Show(True)
-        self.f.updateLists(["Mom <teaisfine@gmail.com>","Daniel <2062345008@vtext.com>"])
 
 
         return True
